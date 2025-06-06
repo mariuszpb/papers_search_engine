@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import sqlite3
+import os
 import sys
 import spacy
+import sqlite3
 from collections import Counter
 
 nlp = spacy.load("pl_core_news_sm")
@@ -13,7 +14,15 @@ def tokenize(text):
     tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct]
     return tokens
 
-conn = sqlite3.connect('DataBaseInz.db')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+project_root = base_dir
+for _ in range(5):
+    project_root = os.path.dirname(project_root)
+
+db_path = os.path.join(project_root, 'DataBaseInz.db')
+
+conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
 cursor.execute("SELECT article_id, word FROM words;")
