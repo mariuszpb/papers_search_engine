@@ -11,7 +11,9 @@ namespace ProjektInzynieria.Services
 
         public DataBaseConnectionService()
         {
-            var dbPath = Path.Combine(AppContext.BaseDirectory, "DataBaseInz.db");
+            var baseDir = AppContext.BaseDirectory;
+            var projectRoot = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", ".."));
+            var dbPath = Path.Combine(projectRoot, "DataBaseInz.db");
 
             _connectionString = $"Data Source={dbPath};Version=3;";
 
