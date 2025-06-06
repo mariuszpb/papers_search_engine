@@ -1,0 +1,133 @@
+﻿@using ProjektInzynieria.Models
+@model List<ArticleResult>
+
+@{
+    ViewData["Title"] = "Wyszukiwarka artykułów";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f2f4f8;
+        margin: 0;
+        padding: 0;
+    }
+
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 60px 20px;
+    }
+
+    .search-box-wrapper {
+        background-color: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .search-heading {
+        font-size: 28px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        transition: border-color 0.2s;
+    }
+
+        .search-box:focus {
+            border-color: #0078d7;
+            outline: none;
+        }
+
+    .search-button {
+        padding: 10px 24px;
+        font-size: 16px;
+        border: none;
+        background-color: #0078d7;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .search-button:hover {
+            background-color: #005fa3;
+        }
+
+    .results {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+        .results h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .results li {
+            margin: 8px 0;
+        }
+
+        .results a {
+            color: #0078d7;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .results a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<div class="search-container">
+    <div class="search-box-wrapper">
+        <div class="search-heading">Wyszukaj swój wymarzony artykuł</div>
+
+        <form method="post" asp-controller="Home" asp-action="Index">
+            <input class="search-box" type="text" name="userInput" value="@(ViewData["UserInput"] ?? "")" placeholder="Wpisz pytanie..." required />
+            <button class="search-button" type="submit">Szukaj</button>
+        </form>
+    </div>
+
+    @if (Model != null)
+    {
+        if (Model.Count > 0)
+        {
+            <div class="results">
+                <h3>Znalezione artykuły:</h3>
+                <ul>
+                    @foreach (var article in Model)
+                    {
+                        <li><a href="@article.Link" target="_blank">@article.Title</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div class="results">
+                <h3 style="color: #777; font-weight: 400;">Brak artykułów związanych z wyszukiwanym tematem.</h3>
+            </div>
+        }
+    }
+</div>
