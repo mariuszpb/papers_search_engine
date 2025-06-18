@@ -191,8 +191,9 @@ def delete_from_article(id):
     else:
         conn = sqlite3.connect("DataBaseInz.db")
         c = conn.cursor()
+        c.execute("PRAGMA foreign_keys = ON")
         c.execute("DELETE FROM articles WHERE id=(?)",(id,))
-        print(f"Udało się usunąć artykuł {id} z tabeli articles")
+        print(f"Udało się usunąć artykuł {id}")
         conn.commit()
         conn.close()
 
